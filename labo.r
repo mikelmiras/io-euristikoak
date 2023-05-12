@@ -1,5 +1,5 @@
 
-setwd("/Users/ehu/Downloads")
+setwd("/Users/ehu/Desktop/io")
 library(metaheuR)
 install.packages("igraph")
 library(igraph)
@@ -246,10 +246,26 @@ getEvaluation(emaitza)
 
 # "Hobetzen duen lehen auzokidea" estrategiarekin: firstImprovementSelector
 # IDATZI HEMEN (kode-lerroak)
+iterations = 10
+list = rep(1, 10)
 
+for (i in 1:iterations){
+  s = runif(30) < 0.5
+  sol = problem$correct(s)
+  emaitza <- basicLocalSearch(
+    evaluate=problem$evaluate, 
+    initial.solution=sol, 
+    valid=problem$valid, 
+    correct=problem$correct, 
+    non.valid='correct', 
+    neighborhood = flipNeighborhood(sol),
+    selector=firstImprovementSelector,
+    resources = r)
+  list[i] = getEvaluation(emaitza)
+}
 
-
-
+list
+length(unique(list))
 
 
 
